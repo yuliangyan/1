@@ -6,10 +6,12 @@ cluster = Cluster(['cassandra'])
 session = cluster.connect()
 app = Flask(__name__)
 
+#to test if there is anymistake in google shell
 @app.route('/')
 def hello():
     name = request.args.get("name","World")
     return('<h1>Hello, {}!</h1>'.format(name))
+
 
 @app.route('/predict', methods=['GET'])
 def gett():
@@ -24,13 +26,14 @@ def gett():
         print(resp.reason)
     
     categories = {categ["date"]:categ["types"]["tree"]["index"]["value"] for categ in cc_url["data"]}
-    
+    #write in the data crabbed from the API
     for i in categories:
         rows = session.execute( """insert into air.stats(date,value) values('{}',{})""".format(i,categories[i]))
     return('<h1>Predict values have been created.</h1>')
 
 @app.route('/predict/tree/<date>')
 def profile(date):
+    #filter by date
     rows = session.execute( """select * from air.stats where date = '{}' allow filtering""".format(date))
     for k in rows:
         return jsonify(k)
