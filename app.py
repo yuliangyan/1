@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request,jsonify
 from cassandra.cluster import Cluster
 import requests
 
@@ -33,7 +33,8 @@ def gett():
 def profile(date):
     rows = session.execute( """select * from air.stats where date = '{}' allow filtering""".format(date))
     for k in rows:
-        return('<h1>The forecast pollen condition value of {} is {}!</h1>'.format(date,k.value))
+        return jsonify(k)
+        #return('<h1>The forecast pollen condition value of {} is {}!</h1>'.format(date,k.value))
     return('<h1>Not included!</h1>')
 
 if __name__ == '__main__':
