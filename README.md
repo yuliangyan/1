@@ -55,4 +55,5 @@ kubectl expose deployment y10 --type=LoadBalancer --port 80 --target-port 8080
 10.get the external IP
 kubectl get services
 
-35.230.155.106/predict/tree/2019-03-28
+Visitors can change <date> into the day the visit this webpage and the two following days. the format is xxxx-xx-xx. 
+35.230.155.106/predict/tree/<date>
